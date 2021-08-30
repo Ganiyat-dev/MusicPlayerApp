@@ -1,0 +1,61 @@
+<!-- load static -->
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>My Music Player App</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- cloudflare -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <!-- cloudflare mediaelement -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mediaelement/4.2.6/mediaelementplayer.min.css"/>
+    <link rel="stylesheet" href="{% static './style.css' %}" />
+
+</head>
+<body>
+    <!-- partial : index.partial.html -->
+    <html>
+      <head>
+        <meta charset="utf-8">
+        <title>Music Player</title>
+      </head>
+      <body>
+          <div class="contain">
+              <div class="class container">
+                  <div class="class music-player">
+                      {% for item in page_obj %}
+                      <div class="class cover">
+                          <img src="{{item.image.url}}" alt="">
+                      </div>
+                      <div class="class titre">
+                          <h3>
+                              {{item.artist}}
+                          </h3>
+                          <h1>
+                              {{item.title}}
+                          </h1>
+                      </div>
+                      <center>
+                          <a href="{% if page_obj.has_previous %} ? page={{ page_obj.previous_page_number }} {% endif %}"><i class="fa fa-step-backward fa-2x"></i></a> &nbsp; &nbsp; &nbsp;
+                          <a href="{% if page_obj.has_next %} ? page={{ page_obj.next_page_number }} {% endif %}"><i class="fa fa-step-forward fa-2x"></i></a>
+                      </center>
+                      <div class="class lecteur">
+                        <audio class="fc-media" style="width: 100%;">
+                        <source src="{% if item.audio_file %} {{item.audio_file.url}} {% else %} {{item.audio_link}} {% endif %}" type="audio/mp3">
+                        </audio>
+                      </div>
+                      {% endfor %}
+                  </div>
+              </div>
+          </div>
+</body>
+</html>
+
+<!-- partial -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mediaelement/4.2.6/mediaelement-and-player.min.js"></script>
+<script src="{% static './script.js' %}"></script>
+</body>
+</html>
