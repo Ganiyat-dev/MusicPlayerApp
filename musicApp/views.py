@@ -13,9 +13,11 @@
 #     context = {"page_obj": page_obj}
 #     return render(request, 'index.html', context)
 
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import Songs
+from django.db.models import query
+from rest_framework import generics, serializers, status
 from .serializers import SongsSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -24,8 +26,13 @@ from rest_framework.views import APIView
 
 
 # Create your views here.
-class SongsAPIView(APIView):
+class Songsview(generics.ListAPIView):
+    queryset = Songs.objects.all()
+    serializer_class = SongsSerializer
+
     
+
+class SongsAPIView(APIView):   
     def get(self, request):
         songs = Songs.objects.all()
         serializer = SongsSerializer(songs, many=True)
@@ -41,7 +48,7 @@ class SongsAPIView(APIView):
 
 
 class SongsDetails(APIView):
-    def get_obeject(self, id):
+    def get_object(self, id):
         try:
             return Songs.objects.get(id=id)
 
@@ -66,3 +73,5 @@ class SongsDetails(APIView):
         songs = self.get_obeject(id)
         songs.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
