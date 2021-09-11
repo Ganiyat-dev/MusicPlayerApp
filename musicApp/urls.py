@@ -1,22 +1,10 @@
-from django.conf import settings
-from django.conf.urls.static import static
+from rest_framework.routers import DefaultRouter
+from .views import SongViewSet
 from django.urls import path, include
-from .views import SongsAPIView, SongsDetails
 
-app_name = "musicApp"
-
-# urlpatterns = [
-#     path('', views.SongsDetails, name='index'),
-# ]
+router = DefaultRouter()
+router.register('songs', SongViewSet)
 
 urlpatterns = [
-    path('songs/', SongsAPIView.as_view()),
-    path('songs/<int:pk>', SongsDetails.as_view()),
-   
+    path('api/', include(router.urls))
 ]
-
-
-# urlpatterns = [
-#     path('snippets/', views.snippet_list),
-#     path('snippets/<int:pk>/', views.snippet_detail),
-# ]

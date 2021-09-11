@@ -22,7 +22,6 @@ class Songs(models.Model):
     media_thumbnail = models.URLField()
     media_url = models.URLField()
     likes = models.IntegerField(default=0)
-    # added_by = models.ForeignKey("User", related_name="added_by", on_delete=models.PROTECT)
     time_added = models.DateTimeField(auto_now_add=True)
     class Meta:
         # ordering = ("time_added")
